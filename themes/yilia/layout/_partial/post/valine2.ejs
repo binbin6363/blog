@@ -1,0 +1,18 @@
+    <!--Leancloud 操作库:-->
+    <script src="https://cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <!--Valine 的核心代码库:-->
+    <script src="https://unpkg.com/valine/dist/Valine.min.js"></script>
+<div class="comment"></div>
+<script>
+
+    new Valine({
+        // AV 对象来自上面引入av-min.js(老司机们不要开车➳♡゛扎心了老铁)
+        av: AV, 
+        el: '.comment', // 
+        app_id: "<%=theme.valine_appid%>", // 'XtyEM8jq4XS7XksPElqI8xFd-gzGzoHsz', // 这里填写上面得到的APP ID
+        app_key: "<%=theme.valine_appkey%>", // 'giQHuKQkIbgL10JfSjaCqyFT', // 这里填写上面得到的APP KEY
+        placeholder: '说点什么吧', // [v1.0.7 new]留言框占位提示文字
+        avatar: 'retro',
+        guest_info: ['nick'] // 只想要昵称
+    });
+</script>
