@@ -1,5 +1,5 @@
 ---
-title: wedding
+title: 婚礼日期
 date: 2017-11-12 16:11:55
 reward: true
 tags: 生活
