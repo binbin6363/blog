@@ -1,4 +1,1 @@
 <%- partial('_partial/article', {post: page, index: false}) %>
-<% if(config.leancloud_visitors.enable){ %>阅读数:
-    <span id="<%= url_for(post.path) %>" class="leancloud_visitors" data-flag-title="<%- post.title %>"></span>次
-<% } %>
