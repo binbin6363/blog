@@ -5,6 +5,7 @@ reward: true
 tags: 生活
 ---
 
+![](ping.jpg)
 展示下图片
 <!-- more -->
 

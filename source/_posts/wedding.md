@@ -6,6 +6,7 @@ tags: 生活
 ---
 
 欢迎大家光临!
+![img](handbyhand.jpg)
 
 <!-- more -->
 ![img](wedding_1280.jpg)

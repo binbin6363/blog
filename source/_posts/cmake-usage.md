@@ -6,6 +6,7 @@ tags: 编译
 ---
 
 罗列一下cmake常用的命令。
+![](sunshine.jpg)
 
 <!-- more -->
 
