@@ -6,9 +6,6 @@
         <% if (!post.noDate){ %>
         <%- partial('post/date', {class_name: 'archive-article-date', date_format: null}) %>
         <% } %>
-        <% if(!index && theme.leancloud_visitors.enable){ %>阅读数:
-            <span id="<%= url_for(post.path) %>" class="leancloud_visitors" data-flag-title="<%- post.title %>"></span>次
-        <% } %>
       </header>
     <% } %>
     <div class="article-entry" itemprop="articleBody">
