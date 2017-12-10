@@ -5,13 +5,16 @@ reward: true
 tags: 编译
 ---
 
-罗列一下cmake常用的命令。
 ![](sunshine.jpg)
+>只有经历过地狱般的磨砺，才能练就创造天堂的力量； 
+>只有流过血的手指，才能弹出世间的绝响。
+>——泰戈尔 《飞鸟集》
+---
 
-<!-- more -->
+罗列一下cmake常用的命令。
 
 cmake中没有大小写区分。先看一段完整的CmakeLists.txt文件
-
+<!-- more -->
 ```
 cmake_minimum_required(VERSION 3.0)
 
