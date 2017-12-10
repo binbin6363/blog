@@ -13,8 +13,8 @@
     </h1>
   <% } %>
 <% } %>
-<% if (theme.leancloud_visitors.enable){ %>
+<% if (!index && theme.leancloud_visitors.enable){ %>
   <a href="javascript:;" class="archive-article-date">
-      <i class="icon-smile icon"></i> 阅读数:<span id="<%- url_for(post.path) %>" class="pageViews">0</span>次
+      <i class="icon-smile icon"></i> 阅读数:<span id="<%= url_for(post.path) %>" class="leancloud_visitors" data-flag-title="<%- post.title %>"></span>次
   </a>
 <% } %>
