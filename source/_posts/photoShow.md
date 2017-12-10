@@ -2,7 +2,7 @@
 title: photoShow
 date: 2017-11-12 20:38:14
 reward: true
-tags:
+tags: 生活
 ---
 
 展示下图片

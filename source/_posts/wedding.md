@@ -2,7 +2,7 @@
 title: wedding
 date: 2017-11-12 16:11:55
 reward: true
-tags:
+tags: 生活
 ---
 
 欢迎大家光临!

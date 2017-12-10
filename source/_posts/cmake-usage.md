@@ -2,7 +2,7 @@
 title: cmake使用
 date: 2017-11-26 23:11:55
 reward: true
-tags:
+tags: 编译
 ---
 
 罗列一下cmake常用的命令。
