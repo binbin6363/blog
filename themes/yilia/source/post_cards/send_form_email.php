@@ -1,6 +1,6 @@
 <?php 
 // EDIT THE 2 LINES BELOW AS REQUIRED
-$send_email_to = "136800719.com";
+$send_email_to = "136800719@qq.com";
 $email_subject = "明信片寄送请求";
 function send_email($name,$recv_addr,$email_message,$phone)
 {
@@ -53,7 +53,7 @@ function validate($name,$recv_addr,$message,$phone)
       $return_array['name_msg'] = 'enter valid name.';
     }
   }
-  $string_exp = "/^[A-Za-z .'-]+$/";
+  //$string_exp = "/^[A-Za-z .'-]+$/";
   //if (preg_match($string_exp, $phone)) {
 	//	$return_array['success'] = '0';
 	//	$return_array['phone_msg'] = 'enter valid phone no.';
@@ -69,13 +69,13 @@ function validate($name,$recv_addr,$message,$phone)
   //    $return_array['success'] = '0';
    //   $return_array['message_msg'] = 'enter valid message.';
    // }
-  }
+  //}
   return $return_array;
 }
 
 $name = $_POST['recv_name']; // 明信片收件人作为发送标题
 $recv_addr = $_POST['recv_addr']; // 收件人地址
-$email = $_POST['email'];    // 请求寄送明信片发起者的邮箱
+$email = '1366666@qq.com';//$_POST['email'];    // 请求寄送明信片发起者的邮箱
 $message = $_POST['message'];// 想说的话
 $phone = $_POST['send_phone'];    // 寄件人的电话
 
