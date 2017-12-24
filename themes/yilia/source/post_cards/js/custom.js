@@ -29,7 +29,8 @@ $(document).ready(function(){
 			result = JSON.parse(html);
 			if (result.success) {
 				num = result['res'];
-				$("#left_card").html("<h2>彬彬总共有明信片" + num['TotalNum'] + "张，剩余" + num['LeftNum'] + "张可寄送" + "</h2>");
+				$("#left_card").html("<h3>彬彬总共有明信片" + num['TotalNum'] + "张，剩余" + num['LeftNum'] + "张可寄送" + "</h3>");
+				$("#left_card").show();
 			}
 		},
 		error: function(){

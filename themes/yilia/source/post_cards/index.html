@@ -25,7 +25,6 @@
 	<script>window.attachEvent("onload", function() {CFInstall.check({mode: "overlay", node: "prompt"});});</script>
 	<![endif]-->
 	<body>
-		<div id="show_result"></div>
 		<div class="container">
 			<div class="navbar-header">
 				<button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
@@ -50,11 +49,12 @@
 				</ul>
 			</nav>
 		</div>
+		<div id="show_result"></div>
 		<hr>
 		<div class="bs-docs-featurette" id="contact">
 			<div class="container">
 				<h2 class="bs-docs-featurette-title">明信片寄送</h2>
-				<div id="left_card"></vid>
+				<div class="bs-docs-featurette hidden" id="left_card"></vid>
 				<div id="insert_form">
 					<form class="form-horizontal" id="contact_form" method="POST" action="" accept-charset="UTF-8">
 						<input type="hidden" name="csrf_token" value="WOmJTlFSei62Ec5msvgIfbDioUG0tIku5CZPXmsC">
@@ -110,9 +110,6 @@
 					<p>你好，我是politewang(彬彬) :-D, 我已经收到你的请求，我会在一周内安排寄送明信片!</p>
 				</div>
 			</div>
-			<div class="bottom-shadow"></div>
-			<div class="no-shadow hidden"></div>
-			<div class="clear"></div>
 		</div>
 	</div>
 	<hr>

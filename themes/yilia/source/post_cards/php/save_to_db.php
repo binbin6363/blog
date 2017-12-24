@@ -169,6 +169,8 @@ function QueryLeftCard()
 	    //printf("Connect failed: %s\n", mysqli_connect_error());
 	    die('Could not connect: ' . mysqli_connect_error());
 		writeLog("connect db failed".mysqli_connect_error());
+		$return_array['msg'] = "connect db failed".mysqli_connect_error();
+		echo json_encode($return_array);
 	    return ;
 	}
 
@@ -180,6 +182,8 @@ function QueryLeftCard()
 	    die('Could not select db: ' . mysqli_connect_error());
 		writeLog("select db failed".mysqli_connect_error());
     	mysqli_close($con);
+		$return_array['msg'] = "select db failed, ".mysqli_connect_error();
+		echo json_encode($return_array);
 		return;
 	}
 
@@ -243,7 +247,7 @@ if ($type == 'insert') {
 }
 
 if ($type == 'query_left') {
-	QueryLeftCard()
+	QueryLeftCard();
 }
 
 die();
