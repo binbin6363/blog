@@ -18,44 +18,53 @@ function AddRecord($recv_name,$recv_addr,$message, $send_name, $send_phone, $car
     $return_array['success'] = true;
     $return_array['msg'] = 'ok';
 	$con = mysqli_connect($app['db_host'],$app['db_user_name'],$app['db_user_passwd']);
-	if (!$con)
+	if (mysqli_connect_errno())
 	{
-		$return_array['msg'] = 'Could not connect: ' . mysqli_error($con);
+		writeLog("connect db failed".mysqli_error($con));
+		//$return_array['msg'] = 'Could not connect: ' . mysqli_error($con);
 		die('Could not connect: ' . mysqli_error($con));
-		return $return_array;
+		$return_array['msg'] = "数据库错误，明信片寄送失败，请稍后重试!";
+		echo json_encode($return_array);
+		return;
 	}
-	//mysql_query("set character set 'utf8'");//读库 
-	mysql_query("set names 'utf8'");//写库 
-	mysql_query("set character_set_client=utf8");
-	mysql_query("set character_set_results=utf8");
+	
+	mysqli_set_charset($con,"utf8");
 
-	mysqli_select_db($con, $app['table_card_info_name']);
-	$sql="update t_card_num set FCardNum=FCardNum-1 where FCardId='.$card_id.' limit 1";
+	mysqli_select_db($con, $app['db_name']);
+	$sql="update t_card_num set FCardNum=FCardNum-1 where FCardId='$card_id' limit 1";
+	//writeLog("update db:".$sql);
 
 	if (!mysqli_query($con, $sql))
 	{
+		writeLog("update t_card_num failed".mysqli_error($con));
 		$err_msg = mysqli_error($con);
 		// 回滚
+		//mysqli_select_db($con, $app['db_name']);
 		$sql="update t_card_num set FCardNum=FCardNum+1 where FCardId='.$card_id.' limit 1";
 		mysqli_query($con, $sql);
+		mysqli_close($con);
+		$return_array['msg'] = "明信片寄送失败，请稍后重试!";
+		echo json_encode($return_array);
 		die('Error: ' . $err_msg);
 		return;
 	}
 
-	mysqli_select_db($con, $app['db_name']);
+	//mysqli_select_db($con, $app['db_name']);
 	$sql="INSERT INTO t_card_list(FCardId, FRecvName, FRecvAddr, FMessage, FSendName, FSendPhone, FCreateTime, FUpdateTime)
 	VALUES
 	('$card_id', '$recv_name','$recv_addr','$message', '$send_name', '$send_phone', null, null)";
 
 	if (!mysqli_query($con, $sql))
 	{
+		writeLog("insert t_card_list failed, ".mysqli_error($con));
+		mysqli_close($con);
+		$return_array['msg'] = "明信片寄送失败，请稍后重试!";
+		echo json_encode($return_array);
 		die('Error: ' . mysqli_error($con));
 		return;
 	}
 
-
-
-	echo "请求写入成功";
+	//echo "请求写入成功";
 
 	mysqli_close($con);
 
@@ -84,6 +93,7 @@ function QueryRecord($condition, $limit)
 
 	mysql_query("set character set 'utf8'");//读库 
 	mysql_query("set names 'utf8'");//写库 
+	mysqli_set_charset($con,"utf8");
 
 	mysqli_select_db($con, $app['db_name']);
 
@@ -119,9 +129,6 @@ function QueryRecord($condition, $limit)
 	echo "<table class=\"table table-bordered\">
 	<tr>
 	<th>序号</th>
-	<th>收件人</th>
-	<th>收件地址</th>
-	<th>留言信息</th>
 	<th>发件人</th>
 	<th>创建时间</th>
 	<th>寄送状态</th>
@@ -131,9 +138,6 @@ function QueryRecord($condition, $limit)
 	{
 		echo "<tr>";
 		echo "<td>" . $row['Fid'] . "</td>";
-		echo "<td>" . $row['FRecvName'] . "</td>";
-		echo "<td>" . $row['FRecvAddr'] . "</td>";
-		echo "<td>" . $row['FMessage'] . "</td>";
 		echo "<td>" . $row['FSendName'] . "</td>";
 		echo "<td>" . $row['FCreateTime'] . "</td>";
 		$status = $row['FCardStatus'];
@@ -171,6 +175,7 @@ function QueryLeftCard()
 	}
 	mysql_query("set character set 'utf8'");//读库 
 	mysql_query("set names 'utf8'");//写库 
+	mysqli_set_charset($con,"utf8");
 
 	/* check connection */
 	if (mysqli_connect_errno()) {

@@ -29,7 +29,7 @@ $(document).ready(function(){
 			result = JSON.parse(html);
 			if (result.success) {
 				num = result['res'];
-				$("#left_card").html("<h3>彬彬总共有明信片" + num['TotalNum'] + "张，剩余" + num['LeftNum'] + "张可寄送" + "</h3>");
+				$("#left_card").html("<p>彬彬总共有明信片" + num['TotalNum'] + "张，剩余" + num['LeftNum'] + "张可寄送" + "</p>");
 				$("#left_card").show();
 			}
 		},
@@ -160,6 +160,12 @@ function show_error_msg(msg='') {
 	$("#show_result").html(msg);
 	//$('#ajax-message').css('display','block').html('明信片寄送请求失败，请稍后重试!');	
 }
+
+function show_info_msg(msg='') {
+	$("#show_result").html(msg);
+	//$('#ajax-message').css('display','block').html('明信片寄送请求失败，请稍后重试!');	
+}
+
 function getDivHeight(objName) {
     return boxHeight = document.getElementById(objName).clientHeight;
 }
