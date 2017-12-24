@@ -11,7 +11,7 @@ function Reply($ret_val, $err_msg)
 	echo json_encode($return_array);
 }
 
-function AddRecord($recv_name,$recv_addr,$message, $send_name, $send_phone)
+function AddRecord($recv_name,$recv_addr,$message, $send_name, $send_phone, $card_id)
 {
 	global $app;
 	$return_array = array();
@@ -24,13 +24,28 @@ function AddRecord($recv_name,$recv_addr,$message, $send_name, $send_phone)
 		die('Could not connect: ' . mysqli_error($con));
 		return $return_array;
 	}
-	mysql_query("set character set 'utf8'");//读库 
+	//mysql_query("set character set 'utf8'");//读库 
 	mysql_query("set names 'utf8'");//写库 
+	mysql_query("set character_set_client=utf8");
+	mysql_query("set character_set_results=utf8");
+
+	mysqli_select_db($con, $app['table_card_info_name']);
+	$sql="update t_card_num set FCardNum=FCardNum-1 where FCardId='.$card_id.' limit 1";
+
+	if (!mysqli_query($con, $sql))
+	{
+		$err_msg = mysqli_error($con);
+		// 回滚
+		$sql="update t_card_num set FCardNum=FCardNum+1 where FCardId='.$card_id.' limit 1";
+		mysqli_query($con, $sql);
+		die('Error: ' . $err_msg);
+		return;
+	}
 
 	mysqli_select_db($con, $app['db_name']);
-	$sql="INSERT INTO t_card_list(FRecvName, FRecvAddr, FMessage, FSendName, FSendPhone, FCreateTime, FUpdateTime)
+	$sql="INSERT INTO t_card_list(FCardId, FRecvName, FRecvAddr, FMessage, FSendName, FSendPhone, FCreateTime, FUpdateTime)
 	VALUES
-	('$recv_name','$recv_addr','$message', '$send_name', '$send_phone', null, null)";
+	('$card_id', '$recv_name','$recv_addr','$message', '$send_name', '$send_phone', null, null)";
 
 	if (!mysqli_query($con, $sql))
 	{
@@ -38,13 +53,6 @@ function AddRecord($recv_name,$recv_addr,$message, $send_name, $send_phone)
 		return;
 	}
 
-	mysqli_select_db($con, $app['table_card_info_name']);
-	$sql="update t_card_num set FCardNum=FCardNum+1 where FCardId=1";
-
-	if (!mysqli_query($con, $sql))
-	{
-		die('Error: ' . mysqli_error($con));
-	}
 
 
 	echo "请求写入成功";
@@ -237,8 +245,9 @@ if ($type == 'insert') {
 	$email = '1366666@qq.com';//$_POST['email'];    // 请求寄送明信片发起者的邮箱
 	$message = $_POST['message'];// 想说的话
 	$send_phone = $_POST['send_phone'];    // 寄件人的电话
+	$card_id = $_POST['card_id'];
 
-	AddRecord($recv_name,$recv_addr,$message, $send_name, $send_phone);
+	AddRecord($recv_name,$recv_addr,$message, $send_name, $send_phone, $card_id);
 
 }
 
