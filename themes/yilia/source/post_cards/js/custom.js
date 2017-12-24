@@ -11,7 +11,7 @@ $(document).ready(function(){
 	$.ajax({
 		type: 'POST',
 		url: 'save_to_db.php',
-		data: {"request_type":"query_left"},
+		data: $('#query_form').serialize(),
 		success: function(html) {
 			$("#query_form").html(html);
 		},
@@ -24,7 +24,7 @@ $(document).ready(function(){
 	$.ajax({
 		type: 'POST',
 		url: 'save_to_db.php',
-		data: $('#query_form').serialize(),
+		data: {"request_type":"query_left"},
 		success: function(html) {
 			result = JSON.parse(html);
 			if (result.success) {
