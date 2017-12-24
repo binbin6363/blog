@@ -189,11 +189,7 @@ function QueryLeftCard()
 
 
 	$sql="SELECT SUM(FTotalCardNum) as \"TotalNum\", SUM(FCardNum) as \"LeftNum\" FROM t_card_num";
-	if($condition != '')
-	{
-		$sql = $sql.$condition;
-	}
-	
+
 	$return_array['res'] = array();
 
 	$result = mysqli_query($con, $sql);
