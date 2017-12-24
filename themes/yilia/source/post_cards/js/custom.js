@@ -59,8 +59,8 @@ $(document).ready(function(){
 					result = JSON.parse(html);
 					if(result.success)
 					{
-						var msg = '<h1>寄送请求发送成功</h1>';
-						show_info_msg(result.msg);
+						var msg = '<h1>寄送请求发送成功，已通知彬彬 :-D</h1>';
+						show_info_msg(msg);
 						$('#client_name').html($('#send_name').attr('value'));
 						$('#thanks').show();
 					} else {
