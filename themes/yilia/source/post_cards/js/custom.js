@@ -1,11 +1,41 @@
 var control_timeout, footerHeight;
 
 $(document).ready(function(){
-	$("html").niceScroll({ autohidemode: false });
+	//$("html").niceScroll({ autohidemode: false });
 	$('#menu').localScroll({hash:true, onAfterFirst:function(){$('html, body').scrollTo( {top:'-=25px'}, 'fast' );}});
 	$('#about-menu').localScroll({hash:true, onAfterFirst:function(){$('html, body').scrollTo( {top:'-=25px'}, 'fast' );}});
 	$('.logo').localScroll({hash:true});	
 	$('.read-on').localScroll({hash:true});
+
+	// 拉取明信片寄送明细
+	$.ajax({
+		type: 'POST',
+		url: 'save_to_db.php',
+		data: $('#query_form').serialize(),
+		success: function(html) {
+			$("#query_form").html(html);
+		},
+		error: function(){
+			show_error_msg();
+		}
+	});
+
+	// 拉取剩余明信片信息
+	$.ajax({
+		type: 'POST',
+		url: 'save_to_db.php',
+		data: $('#query_form').serialize(),
+		success: function(html) {
+			result = JSON.parse(html);
+			if (result.success) {
+				num = result['res'];
+				$("#left_card").html("<h2>彬彬总共有明信片" + num['TotalNum'] + "张，剩余" + num['LeftNum'] + "张可寄送" + "</h2>");
+			}
+		},
+		error: function(){
+			show_error_msg();
+		}
+	});
 	
 	is_ipad = navigator.userAgent.toLowerCase().indexOf('ipad') > -1;
 	if(is_ipad){
@@ -18,68 +48,42 @@ $(document).ready(function(){
 	}
 	$('#submit').click(function(event){
 		event.preventDefault();
-		if (valename($('#recv_addr').attr('value')) && $('#recv_name').attr('value')!=''){
+		if (valename($('#recv_addr').val()) && $('#recv_name').val()!=''){
 			$('html, body').scrollTo( $('#contact'), 'fast' );
-			console.log($('#contact_form').serialize());
 			$.ajax({
 				type: 'POST',
-				url: 'send_form_email.php',
+				url: 'save_to_db.php',
 				data: $('#contact_form').serialize(),
 				success: function(html) {
-					if($(window).width()>=768){
-						divHeight = getDivHeight('form') - 80;
-						$('#thanks').css('height',divHeight)
-						$('#form').removeClass('shadow');
-						$('#thanks').removeClass('hidden');
-						$('.bottom-shadow').addClass('hidden');
-						$('.no-shadow').removeClass('hidden');
-						$('#client_name').html($('#recv_name').attr('value'));
-						var msg = '';
-						if(html.success=='1')
-						{
-							msg = '<h1>请求发送成功，我们会尽快安排寄送</h1>';							
-							$("#form").flip({
-								direction: 'lr',
-								color: '#FDFCF6',
-								bgcolor: '#FDFCF6',
-								speed: 200,
-								content: msg
-							});
-						}
-						else
-							show_error_msg();
-						
-					}
-					else
+					result = JSON.parse(html);
+					if(result.success)
 					{
-						if(html.success=='1')
-						{
-							var msg = '<h1>寄送请求发送成功</h1>';
-							$('#client_name').html($('#name').attr('value'));							
-							$("#form").html(msg);
-						}
-						else
-							show_error_msg();
+						var msg = '<h1>寄送请求发送成功</h1>';
+						$('#client_name').html($('#send_name').attr('value'));
+						$('#thanks').show();
+					} else {
+						show_error_msg(result.msg);
 					}
+				
 				},
 				error: function(){
-					show_error_msg();
+					show_error_msg('寄送请求发送失败');
 				}
 			});
 		} else {
-			show_error_msg();
+			show_error_msg('寄送请求发送失败');
 		}
 	});
 
 	init_scroll();
 
-	control_timeout = setTimeout("no_run()",1350);
+	//control_timeout = setTimeout("no_run()",800);
 
 	$('.menu-btn').click(function(){
 		$('html, body').animate({ scrollTop: $(document).height() }, 'fast');
 	});
 	
-	paddFooter();
+	//paddFooter();
 	
 });
 
@@ -151,8 +155,9 @@ function valename(name) {
 	}
 }
 
-function show_error_msg() {
-	$('#ajax-message').css('display','block').html('明信片寄送请求失败，请稍后重试!');	
+function show_error_msg(msg='') {
+	$("#show_result").html(msg);
+	//$('#ajax-message').css('display','block').html('明信片寄送请求失败，请稍后重试!');	
 }
 function getDivHeight(objName) {
     return boxHeight = document.getElementById(objName).clientHeight;
